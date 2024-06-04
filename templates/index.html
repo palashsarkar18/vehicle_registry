@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vehicle Data</title>
+    <script>
+        function uploadFile() {
+            let formData = new FormData();
+            let file = document.getElementById('file').files[0];
+            formData.append('file', file);
+
+            fetch('/vehicles/upload/', {
+                method: 'POST',
+                body: formData
+            }).then(response => response.json())
+              .then(data => alert(data.status));
+        }
+
+        function searchVehicles() {
+            let query = document.getElementById('search').value;
+            fetch(`/vehicles/search/?query=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    let results = document.getElementById('results');
+                    results.innerHTML = '';
+                    data.forEach(vehicle => {
+                        let item = document.createElement('div');
+                        item.textContent = `${vehicle.make} ${vehicle.model} (${vehicle.model_year})`;
+                        results.appendChild(item);
+                    });
+                });
+        }
+    </script>
+</head>
+<body>
+    <h1>Vehicle Data</h1>
+    <input type="file" id="file">
+    <button onclick="uploadFile()">Upload</button>
+    <br><br>
+    <input type="text" id="search" oninput="searchVehicles()" placeholder="Search...">
+    <div id="results"></div>
+</body>
+</html>
