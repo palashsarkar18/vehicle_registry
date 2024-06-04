@@ -4,8 +4,22 @@ from vehicles.models import Vehicle
 from django.core.files.uploadedfile import SimpleUploadedFile
 import json
 
+
 @pytest.mark.django_db
 def test_upload_file(client):
+    """
+    Test the file upload functionality.
+
+    This test checks if the file upload endpoint correctly handles a POST request
+    with a JSON file, processes the data, and updates or creates vehicle records
+    in the database.
+
+    Steps:
+    1. Create a JSON file with vehicle data.
+    2. Upload the file to the 'upload_file' endpoint.
+    3. Verify the response status and content.
+    4. Check if the vehicle data is correctly stored in the database.
+    """
     url = reverse('upload_file')
     data = [
         {
@@ -38,6 +52,19 @@ def test_upload_file(client):
 
 @pytest.mark.django_db
 def test_search_vehicles(client):
+    """
+    Test the search functionality.
+
+    This test checks if the search endpoint correctly handles GET requests and
+    returns filtered vehicle data based on the query parameters.
+
+    Steps:
+    1. Create test vehicle data in the database.
+    2. Test the search functionality with a specific query.
+    3. Verify the response status and content for the query.
+    4. Test the search functionality without any query.
+    5. Verify the response status and content for the no-query case.
+    """
     # Create test data
     Vehicle.objects.create(
         model_year='2020',
