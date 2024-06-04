@@ -2,6 +2,18 @@
 <html>
 <head>
     <title>Vehicle Data</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        tr:hover {background-color: #f5f5f5;}
+    </style>
     <script>
         function uploadFile() {
             let formData = new FormData();
@@ -20,15 +32,48 @@
             fetch(`/vehicles/search/?query=${query}`)
                 .then(response => response.json())
                 .then(data => {
-                    let results = document.getElementById('results');
-                    results.innerHTML = '';
-                    data.forEach(vehicle => {
-                        let item = document.createElement('div');
-                        item.textContent = `${vehicle.make} ${vehicle.model} (${vehicle.model_year})`;
-                        results.appendChild(item);
-                    });
+                    renderTable(data);
                 });
         }
+
+        function renderTable(data) {
+            let results = document.getElementById('results');
+            results.innerHTML = '';
+            let table = document.createElement('table');
+            let thead = document.createElement('thead');
+            let tbody = document.createElement('tbody');
+            table.appendChild(thead);
+            table.appendChild(tbody);
+
+            let headerRow = document.createElement('tr');
+            ['Make', 'Model', 'Model Year', 'Rejection Percentage', 'Reason 1', 'Reason 2', 'Reason 3'].forEach(text => {
+                let th = document.createElement('th');
+                th.textContent = text;
+                headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+
+            data.forEach(vehicle => {
+                let row = document.createElement('tr');
+                ['make', 'model', 'model_year', 'rejection_percentage', 'reason_1', 'reason_2', 'reason_3'].forEach(key => {
+                    let td = document.createElement('td');
+                    td.textContent = vehicle[key];
+                    row.appendChild(td);
+                });
+                tbody.appendChild(row);
+            });
+
+            results.appendChild(table);
+        }
+
+        // Initial fetch to load all vehicle data
+        document.addEventListener('DOMContentLoaded', (event) => {
+            fetch('/vehicles/search/')
+                .then(response => response.json())
+                .then(data => {
+                    renderTable(data);
+                });
+        });
     </script>
 </head>
 <body>
