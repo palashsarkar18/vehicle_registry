@@ -31,7 +31,6 @@ This project is a simple vehicle registry application built using Django and Pos
     Create a .env file in the project root with the following content:
 
     ```
-    SECRET_KEY=your_secret_key
     DEBUG=on
     SECRET_KEY=secret-key
     DATABASE_NAME=db_name
