@@ -46,7 +46,7 @@
             table.appendChild(tbody);
 
             let headerRow = document.createElement('tr');
-            ['Make', 'Model', 'Model Year', 'Rejection Percentage', 'Reason 1', 'Reason 2', 'Reason 3'].forEach(text => {
+            ['Year', 'Make', 'Model', 'Rejection %', 'Rejection reason #1', 'Rejection reason #2', 'Rejection reason #3'].forEach(text => {
                 let th = document.createElement('th');
                 th.textContent = text;
                 headerRow.appendChild(th);
@@ -55,7 +55,7 @@
 
             data.forEach(vehicle => {
                 let row = document.createElement('tr');
-                ['make', 'model', 'model_year', 'rejection_percentage', 'reason_1', 'reason_2', 'reason_3'].forEach(key => {
+                ['model_year', 'make', 'model', 'rejection_percentage', 'reason_1', 'reason_2', 'reason_3'].forEach(key => {
                     let td = document.createElement('td');
                     td.textContent = vehicle[key];
                     row.appendChild(td);
